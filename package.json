@@ -1,0 +1,22 @@
+{
+  "name": "mongomap",
+  "version": "0.0.1",
+  "description": "Extends javascript maps for persistance to a MongoDB collection and updating the map from a MongoDB changefeed",
+  "main": "src/mongomap.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fatchan/mongomap.git"
+  },
+  "author": "69420#9999 Tom",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/fatchan/mongomap/issues"
+  },
+  "homepage": "https://github.com/fatchan/mongomap#readme",
+  "dependencies": {
+    "mongodb": "^3.1.13"
+  }
+}
