@@ -18,5 +18,13 @@
   "homepage": "https://github.com/fatchan/mongomap#readme",
   "dependencies": {
     "mongodb": "^3.1.13"
-  }
+  },
+  "devDependencies": {},
+  "keywords": [
+    "mongodb",
+    "map",
+    "mongo",
+    "persistence",
+    "mongomap"
+  ]
 }
