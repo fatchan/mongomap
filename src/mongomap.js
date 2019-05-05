@@ -33,7 +33,6 @@ class MongoMap extends Map {
 		if (this.monitorChanges) {
 			const changeStream = this.db.watch();
 			changeStream.on("change", (change) => {
-				console.log(change)
 				if (change.operationType === 'insert' || change.operationType === 'replace') {
 					super.set(change.fullDocument._id, change.fullDocument.value);
 				} else if (change.operationType === 'update' && change.updateDescription.updatedFields) {
