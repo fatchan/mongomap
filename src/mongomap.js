@@ -21,7 +21,10 @@ class MongoMap extends Map {
 
 	async init() {
 		if (!this.client) {
-			this.client = await MongoClient.connect(this.url, { useNewUrlParser: true });
+			this.client = await MongoClient.connect(this.url, {
+				useNewUrlParser: true,
+				useUnifiedTopology: true
+			});
 		}
 		this.db = this.client.db(this.dbName).collection(this.collectionName);
 		if (this.documentTTL) {
@@ -61,35 +64,36 @@ class MongoMap extends Map {
 		return mongomaps;
 	}
 
-	set(key, val, expiry) {
-		if (expiry) {
-			this.db.replaceOne({ _id: key }, { _id: key, value: val, expireAt: expiry }, { upsert: true });
-		} else {
-			this.db.replaceOne({ _id: key }, { _id: key, value: val }, { upsert: true });
+	set(key, value, expireAt) {
+		const query = { _id: key, value };
+		if (expireAt != null) {
+			query.expireAt = expireAt;
 		}
-		super.set(key, val);
+		this.db.replaceOne({ _id: key }, query, { upsert: true });
+		return super.set(key, value);
 	}
 
 	delete(key) {
 		this.db.deleteOne({ _id: key });
-		super.delete(key);
+		return super.delete(key);
 	}
 
 	async fetch(keyOrKeys) {
-		if (!Array.isArray(keyOrKeys)) {
-			const value = await this.db.findOne({ _id: keyOrKeys });
-			if(value != null && value.value != null) {
-				super.set(keyOrKeys, value.value);
-				return value.value;
+		const rows = await this.db.find({
+			_id: {
+				$in: keyOrKeys //will convert to an $eq automatically for non-array value
 			}
-			return null;
+		}).toArray();
+		if (rows != null && Array.isArray(rows) && rows.length > 0) {
+			if (rows.length === 1) {
+				super.set(keyOrKeys, rows[0].value);
+				return;
+			} else {
+				rows.forEach(row => {
+					super.set(row._id, row.value);
+				});
+			}
 		}
-		await Promise.all(keyOrKeys.map(async key => {
-			const value = await findOne({ _id: key });
-			if(value != null && value.value != null) {
-				super.set(key, value.value);
-			}
-		}));
 	}
 
 	async fetchEverything() {

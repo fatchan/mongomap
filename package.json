@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/fatchan/mongomap#readme",
   "dependencies": {
-    "mongodb": "^3.1.13"
+    "mongodb": "^3.1.13",
+    "saslprep": "^1.0.3"
   },
   "devDependencies": {},
   "keywords": [
