@@ -1,6 +1,6 @@
 {
   "name": "persistent-mongodb-map",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Extends javascript maps for persistance to a MongoDB collection and updating the map from a MongoDB changefeed",
   "main": "src/mongomap.js",
   "scripts": {
