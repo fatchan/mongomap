@@ -79,9 +79,10 @@ class MongoMap extends Map {
 	}
 
 	async fetch(keyOrKeys) {
+		const filter = Array.isArray(keyOrKeys) ? keyOrKeys : [keyOrKeys];
 		const rows = await this.db.find({
 			_id: {
-				$in: keyOrKeys //will convert to an $eq automatically for non-array value
+				$in: filter
 			}
 		}).toArray();
 		if (rows != null && Array.isArray(rows) && rows.length > 0) {
