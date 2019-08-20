@@ -88,7 +88,7 @@ class MongoMap extends Map {
 		if (rows != null && Array.isArray(rows) && rows.length > 0) {
 			if (rows.length === 1) {
 				super.set(keyOrKeys, rows[0].value);
-				return;
+				return rows[0].value;
 			} else {
 				rows.forEach(row => {
 					super.set(row._id, row.value);
